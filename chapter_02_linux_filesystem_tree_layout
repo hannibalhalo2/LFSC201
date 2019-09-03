@@ -1,0 +1,5 @@
+/dev  ---->  reside en disco 
+/proc ---|
+
+/sys  ---->   reside solo en memoria
+/run  ---|

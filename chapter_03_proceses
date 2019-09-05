@@ -1,5 +1,25 @@
 *proceso zombie  es el que muere antes que el padre y el child reaper se lo tiene que cargar
+
 *en systemd init no se encarga de adoptar todos los procesos hijos isn padre si no que lo hace kthreadd
+
 *cada cierto tiempo el proceso toma un snapshot de su estado con sus recursos 
+
 *ulimit muestra el limite de recursos de un proceso y establece limites hard (solo por root) y soft los configura el usuario
+
 *los binarios con setuid o stickybit corren con el nombre del usuario propietario  y no del que lo ejecuta
+
+*modo ejecucion user, system, kernel
+
+*procesos en usermode  tienen acceso a recursos limitados y solo acceden al hardaware cuando hace llamadas de sistema 
+
+*el modo kernel el proceso tien acceso a todos los recursos 
+
+*ps -elf  ver naturaleza procesos
+
+*prioridad procesos  va de -20(alta prioridad) a +19(baja prioridad) archivo para modificar nice para usuarios /etc/security/limits.conf
+  nice -n 5 command argumentos   o   nice -5 command argumentos 
+  nice cat &
+  renice +3 pid
+  
+ *tipos librerias statica (inseertada en tiempo compilacion) shared (a.k.a dll compartidas del sistema)
+  las shared libraries tienen como caracterisitca terminar en .so libgdm.so

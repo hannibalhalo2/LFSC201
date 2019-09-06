@@ -1,0 +1,5 @@
+*ldconfig corre en el momento de booteo perop uede correr a cualquier hora usa el archivo /etc/ld.so.conf contiene los direcotrios que
+seran buscados  para las librerias compartidas  antes de buscar en los links de ldconfig buscara en la variable de sistema 
+LD_LIBRARY_PATH
+LD_LIBRARY_PATH=$HOME/foo/lib
+LD_LIBRARY_PATH=$HOME/foo/lib foo [args]

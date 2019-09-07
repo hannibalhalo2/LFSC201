@@ -1,0 +1,16 @@
+*kill 
+kill pid
+kill -9 pid
+
+*killall mata procesos recibiendo el nombre o el pid puede matar todos los procesos de un usario
+      $ killall bash
+
+      $ killall -9 bash
+
+      $ killall -SIGKILL bash
+
+*pkill manda senial a un proceso de acuerdo a un criterio de seccion
+      pkill -u libby foobar
+       pkill -HUP rsyslogd
+      
+      

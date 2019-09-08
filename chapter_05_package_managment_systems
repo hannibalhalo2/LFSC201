@@ -1,0 +1,85 @@
+*rpm
+
+    
+   - Which version of a package is installed?
+       $ rpm -q bash
+   - Which package did this file come from?
+       $ rpm -qf /bin/bash
+   - What files were installed by this package?
+       $ rpm -ql bash
+   - Show information about this package.
+       $ rpm -qi bash
+   - Show information about this package from the package file, not the package database.
+       $ rpm -qip foo-1.0.0-1.noarch.rpm
+   - List all installed packages on this system.
+        $ rpm -qa 
+-    Return a list of prerequisites for a package:
+       $ rpm -qp --requires foo-1.0.0-1.noarch.rpm
+  -  Show what installed package provides a particular requisite package:
+       $ rpm -q --whatprovides libc.so.6 
+  - verficar paquete
+       $ rpm -Va
+        missing   /var/run/pluto
+        ....
+        S.5....T. c /etc/hba.conf
+        S.5....T. /usr/share/applications/defaults.list
+        ....L.... c /etc/pam.d/fingerprint-auth
+        ....L.... c /etc/pam.d/password-auth
+        ....
+        .M....... /var/lib/nfs/rpc_pipefs
+        ....
+        .....UG.. /usr/local/bin
+        .....UG.. /usr/local/etc
+        
+        al verificar un paquete aparecen las siguientes siglas que se explican a continuacion
+        
+        S: file size differs
+        M: file permissions and/or type differs
+        5: MD5 checksum differs
+        D: device major/minor number mismatch
+        L: symbolic link path mismatch
+        U: user ownership differs
+        G: group ownership differs
+        T: modification time differs
+        P: capabilities differ.
+        
+        If you specify one or more package names as an argument, you examine only that package, as in the following examples:
+
+          No output when everything is OK:
+          $ rpm -V bash
+          Output indicating that a file's size, checksum, and modification time have changed:
+          $ rpm -V talk
+          S.5....T in.ntalkd.8
+          Output indicating that a file is missing:
+          $ rpm -V talk
+          missing /usr/bin/talk
+
+- Install package
+  $ sudo rpm -ivh foo-1.0.0-1.noarch.rpm
+  
+-desistalar paquete
+  $ sudo rpm -e system-config-lvm 
+
+-test desistalar paquete : la opcion test prueba la desistalacion de un paquete
+ $ sudo rpm -e --test system-config-lvm 
+ 
+-refrescando paquetes  en el directorio que se corre todos los paquetes son actualizados a su version mas nueva
+ $ sudo rpm -Fvh *.rpm
+ 
+ -instalar nueva version de kernel sin eliminar en la que se esta corriendo 
+ $ sudo rpm -ivh kernel-{version}.{arch}.rpm
+ 
+ -extract files from rmp with rpm2cpio
+ 
+            Create the cpio archive with:
+            $ rpm2cpio foobar.rpm > foobar.cpio
+
+            To list files in an rpm:
+            $ rpm2cpio foobar.rpm | cpio -t
+
+            but a better way is to do:
+            $  rpm -qilp foobar.rpm
+
+            To extract onto the system:
+            $ rpm2cpio bash-XXXX.rpm |  cpio -ivd bin/bash
+            $ rpm2cpio foobar.rpm | cpio --extract --make-directories

@@ -1,0 +1,45 @@
+*descargar source desde apt-get
+      apt-get source packagename
+   en el archivo .dsc podemos encontrar las dependencias y demas info del paquete
+   si deseamos resolverlas consulte el archivo (instalar_paquete_source_controlando_dependencias)
+   
+*mostrar informacion de un paquete
+      apt-cache show packagename
+      
+*opciones dpkg
+      
+  Here are some examples of queries you can make:
+
+   - List all packages installed:
+        $ dpkg -l
+         One can also specify a package name.
+   - List files installed in the wget package:
+        $ dpkg -L wget
+   - Show info about an installed package:
+        $ dpkg -s wget
+   - Show info about a package file:
+        $ dpkg -I webfs_1.21+ds1-8_amd64.deb
+   - List files in a package file:
+        $ dpkg -c webfs_1.21+ds1-8_amd64.deb
+   - Show what package owns /etc/init/networking.conf:
+        $ dpkg -S /etc/init/networking.conf
+   - Show the status of a package:
+        $ dpkg -s wget
+   - Verify the installed package's integrity:
+        $ dpkg -V package
+        Without arguments, this will verify all packages on the system. See the man page to interpret the output. Note: only recent versions of dpkg (1.17+) support this option.
+
+* installing / upgrading / uninstalling
+   The command:
+    
+    - would be used for either installing or upgrading the foobar package.
+      If the package is not currently installed, then it will be installed. If the package is newer than the one currently installed, then it will be upgraded.
+          $ sudo dpkg -i foobar.deb
+
+    - is used to remove all of an installed package except for its configuration files. The command
+          $ sudo dpkg -r package
+
+    - is used to remove all of an installed package including its configuration files.  (Note that -P stands for purge.)
+          $ sudo dpkg -P package
+
+

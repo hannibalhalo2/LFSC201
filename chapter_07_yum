@@ -1,0 +1,80 @@
+These two commands give somewhat different information. The first one tells more about the packages, while the second one makes it clearer what is installed and what else is available.
+Display information about a package:
+    $ sudo yum search keyword
+    $ sudo yum list "*keyword*"
+    $ sudo yum info package
+    
+-List all packages, or just those installed, available, or updates that have not yet been installed:
+    $ sudo yum list [installed | updates | available ]
+    
+-Show information about package groups installed or available, etc.:
+    $ sudo yum grouplist [group1] [group2]
+    $ sudo yum groupinfo group1 [group2]
+
+-Show packages that contain a certain file name:
+    $ sudo yum provides
+    as in
+    Please note the need to use at least one / in the file name, which can be confusing.
+    $ sudo yum provides "/logrotate.conf"
+
+-Package verification requires installation of the yum-plugin-verify package. So, you might have to do:
+    $ sudo yum install yum-plugin-verify
+
+-To verify a package, giving the most information:
+    $ sudo yum verify [package]
+
+-To mimic rpm -V exactly:
+    $ sudo yum verify-rpm [package]
+    
+ -To list all differences, including configuration files:
+    $ sudo yum verify-all [package]
+    
+  -Install one or more packages from repositories, resolving and installing any necessary dependencies:
+    $ sudo yum install package1 [package2]
+  
+  -Install from a local rpm:
+    $ sudo yum localinstall package-file
+
+  - This is not quite the same as
+    $ rpm -i package-file   because it will attempt to resolve dependencies by accessing remote repositories.
+
+  -Install a specific software group from a repository, resolving and installing any necessary dependencies for each package in the group:
+    $ sudo yum groupinstall group-name
+    or
+    $ sudo yum install @group-name 
+    
+   -Remove packages from the system:
+     $ sudo yum remove package1 [package2]
+
+    You must be careful with package removal, as yum will not only remove requested packages, but all packages that depend on them! This may not be what you want, so never run yum remove with the -y option, which assumes automatic confirmation of removal.
+   
+   -Update a package from a repository:
+
+        $ sudo yum update [package]
+         If no package name is given, all packages are updated.
+       
+    -find package
+        $ sudo find /etc -name "*.rpm*"
+        
+     -list yum modules
+
+       $ sudo yum list "yum-plugin*"
+
+    -Show a list of all enabled repositories:
+
+        $ sudo yum repolist
+    -Initiate an interactive shell in which to run multiple YUM commands:
+        $ sudo yum shell [text-file]
+
+    If text-file is given, yum will read and execute commands from that file instead of from the terminal.
+    
+    -descargar el paquete mas no instalarlo
+        $ sudo yum install --downloadonly package
+        
+     -history yum ommnads
+        $ sudo yum history
+
+
+
+    
+

@@ -1,0 +1,54 @@
+
+    -Show a list of available updates:
+        $ zypper list-updates
+     
+     -List available repositories:
+        $ zypper repos
+    
+    -Search repositories for string:
+        $ zypper search <string>
+    
+    -List information about package:
+        $ zypper info <package>
+    
+    -Search repositories to ascertain what packages provide a file:
+        $ zypper search --provides <file> 
+
+    
+    -Install or update package(s):
+        $ sudo zypper install package
+    
+    -Do not ask for confirmation when installing or upgrading:
+        $ sudo zypper --non-interactive install <package>
+
+    This is useful for scripts and is equivalent to running yum -y
+    
+    -Update all installed packages:
+        $ sudo zypper update
+
+    -Giving package names as an argument will update only those packages and any required dependencies. Do this without asking for confirmation:
+        $ sudo zypper --non-interactive update
+    
+    -Remove a package from the system:
+        $ sudo zypper remove <package>
+
+    -run zypper in shell mode
+        $ sudo zypper shell
+          > install bash
+            ...
+          > exit
+          
+    -add new repo
+        $ sudo zypper addrepo URI alias
+        
+    -remove repo
+        $ sudo zypper removerepo alias
+     
+    -despues de borrar limpiar espacio en /var/cache/zypp
+        $ sudo zypper clean [--all]
+        
+    
+    
+
+
+    

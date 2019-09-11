@@ -68,13 +68,28 @@
     -This will find packages whose names contain <search_term>. Similar to apt-cache search, but also shows whether a package is installed on your system by marking it with ii (installed) and un (not installed).
         dpkg -l *<search_term>*
     
+    -This command shows the description of package <package_name> and other relevant information including version, size, dependencies and conflicts.
+        apt-cache show <package_name>
     
+    -This command will list files in package <package_name>.
+        dpkg -L <package_name>
+        
+    -This command lists files in the package "foo.deb". Note that foo.deb is a pathname. Use this command on .deb packages that you have manually downloaded.
+        dpkg -c foo.deb
+  
+    -This command determines which installed package owns <package_name>. It shows files from installed packages that match <package_name>, with the name of the package they came from. Consider this to be a "reverse lookup" utility.
+        dlocate <package_name>
     
-    
-    
-    
-    
-    
-    
-    
-    
+    -This command does the same as dlocate, but does not require the installation of any additional packages. It is slower than dlocate but has the advantage of being installed by default on all Debian and Ubuntu systems.
+        dpkg -S <filename_search_pattern>
+            apt-file needs to be updated regularly like apt-get. Use the command: 
+                    apt-file update
+            
+    -This command provides a listing of every package in the system
+        apt-cache pkgnames
+     
+    -will show only the files that contain <filename> as a whole word
+        apt-cache search <filename> | grep -w <filename>
+        
+    -will list files located in the directory /usr/bin, useful if you're looking for a particular executable.
+        dpkg -L package | grep /usr/bin 

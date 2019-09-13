@@ -1,0 +1,59 @@
+*rutas logs
+/var/log
+/var/log/syslog
+/var/log/messages
+
+*log en vivo
+        dmesg -w
+
+*cambio de parametros en /proc/sys
+        $ ls -l /proc/sys/kernel/threads-max
+        $ cat /proc/sys/kernel/threads-max
+        129498
+        We then can modify the value and verify the change was effected:
+
+        $ sudo bash -c 'echo 100000 > /proc/sys/kernel/threads-max'
+        $ cat /proc/sys/kernel/threads-max
+        100000
+
+        tambn se pueden cambiar de la siguietne forma
+        Viewing and changing the parameters can be done with simple commands. For example, the maximum number of threads allowed on the system can be seen by looking at:
+
+        $ ls -l /proc/sys/kernel/threads-max
+        $ cat /proc/sys/kernel/threads-max
+        129498
+
+        We then can modify the value and verify the change was effected:
+
+        $ sudo bash -c 'echo 100000 > /proc/sys/kernel/threads-max'
+        $ cat /proc/sys/kernel/threads-max
+        100000
+
+        Remember from our discussion of sysctl the same effect is accomplished by:
+
+        $ sudo sysctl kernel.threads-max=100000
+
+
+* listar todos los dispositivos de red
+        ls -lF /sys/class/net
+        
+* SAR  stands for the Systems Activity Reporter. It is an all-purpose tool for gathering system activity and performance data and creating reports that are readable by humans
+        $ sar [ options ] [ interval ] [ count ]
+        
+        -OPTIONS SAR
+        -A 	Almost all information
+        -b 	I/O and transfer rate statistics (similar to iostat)
+        -B 	Paging statistics including page faults
+        -x 	Block device activity (similar to iostat -x)
+        -n 	Network statistics
+        -P 	Per CPU statistics (as in sar -P ALL 3)
+        -q 	Queue lengths (run queue, processes and threads)
+        -r 	Swap and memory utilization statistics
+        -R 	Memory statistics
+        -u 	CPU utilization (default)
+        -v 	Statistics about inodes and files and file handles
+        -w 	Context switching statistics
+        -W 	Swapping statistics, pages in and out per second
+        -f 	Extract information from specified file, created by the -o option
+        -o 	Save readings in the file specified, to be read in later with -f option
+

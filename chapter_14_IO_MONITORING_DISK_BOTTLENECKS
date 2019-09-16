@@ -1,0 +1,14 @@
+*iostat  
+  muestra estadisticas de monitoreo de disco  explicacion salida diapositiva 7_b
+  iostat -k  salida diferente a la standard
+  iostat -N  salida con nombre de dispositvo
+  iostat -xk salida extendida 
+  
+*iotop
+es el top pero muestas las operaciones entrada y salida 
+iotop --help
+
+*ionice  muestra la prioridad de un proceso de acuerdoi a su entrada y salida
+$ ionice [-c class] [-n priority] [-p pid ] [COMMAND [ARGS] ]
+la opcion -c se configura de acuerdo a la tabal de la diapostiva  9_a
+$ ionice -c 2 -n 3 -p 30078

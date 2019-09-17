@@ -1,0 +1,38 @@
+*herramientas
+        free 	     Brief summary of memory usage 	procps
+        vmstat 	   Detailed virtual memory statistics and block I/O, dynamically updated      	
+        pmap  	   Process memory map 
+        
+*directorio memeoria virtual
+
+        /proc/sys/vm
+        /etc/sysctl.conf
+
+*variables que se pueden cambiar en /proc/sys/vm  (diapositiva 6_b  hasta 6_b_3)
+
+*vmstat muestra informacion sobre la mmeoria mas detallada que free el problema maximo trae los numeros en mb
+  -vmstat -S M 2 4 
+      explicacion ouyput diapositiva 7_b y 7_b_2
+
+ -ver memoria activa con -a
+      vmstat -a 2 4 
+
+  -ver stadisticas completas de memoria pero en kb
+      vmstat -s 
+   
+   -ver estadisticas de disco  explicacion salida 7_f
+    vmstat -d
+    vmstat -p /dev/loquesea 2 4 
+    
+   -tambn hay un resumen del uso de memoria en /pro/meninfo
+   
+   -OOM kille (out of memmory killer)
+   determian en el momento que se acabe la mmeoria quien debe morir se determina por su "badness" la cual se puede ver en /proc/pid/oom_score
+   la cual siendo un usuario normal puede ser incrementada desde el archivo oom_adj_score en ese mismo directorio o siendo un super usuario bajar el badness 
+   ingresando un  valor negativo en oom_adj  el valor en oom_adj_score directamente ajusta el valor ya que oom_adj esta depredicado 
+
+*apagar swap
+ sudo /sbin/swapoff -a
+ 
+ *prender swap 
+  sudo /sbin/swapon -a

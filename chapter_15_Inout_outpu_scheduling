@@ -1,0 +1,14 @@
+*ver que schedulers hay disponibles 
+    cat /sys/block/sda/queue/scheduler
+    
+*cambiar el scheduler
+echo cfq > /sys/block/sda/queue/scheduler
+
+*check the scheduler
+$ cat /sys/block/sda/queue/sheduler
+
+*check tipo de disco
+cat /sys/block/sda/queue/rotational    si devuelve 1 es mecanico si devulve 0 es ssd
+
+*ver opciones de cfq parael disco en cuestion 
+/sys/block/<device>/queue/iosched

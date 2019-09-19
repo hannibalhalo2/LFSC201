@@ -1,0 +1,5 @@
+* discos
+ssd > sas > sata >scsi >usb > ide
+
+*ver particiones disco 
+fdisk -l /dev/sda

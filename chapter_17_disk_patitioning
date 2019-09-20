@@ -1,0 +1,10 @@
+*blkid lista todos los dicos conectados a la maquina con su respectivo tipo y uid
+blkid
+blkid /dev/sda*
+
+*darle file system a una nueva particion
+mkfs.ext4 /dev/sda9
+
+*lsblk
+   lista las particiones atachadas a cada disco 
+   lsblk

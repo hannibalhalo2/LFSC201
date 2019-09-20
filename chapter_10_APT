@@ -64,7 +64,10 @@
  **BUSQUEDA DE PAQUETES
     -Each package has a name and a description. This command lists packages whose name or description contains <search_term>.   
         apt-cache search <search_term>
-       
+      
+    -BUSCAR PAQUETES POR VERSION ()funciona mucho mejor cuando se tiene repositorios externos muestar la ersion instalada y las disponibles
+        apt-cache policy nombrepaquete
+        
     -buscar paquete instalado 
         apt list --installed |grep apache2
     

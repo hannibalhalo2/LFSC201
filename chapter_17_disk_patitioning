@@ -1,10 +1,26 @@
 *blkid lista todos los dicos conectados a la maquina con su respectivo tipo y uid
-blkid
-blkid /dev/sda*
+   blkid
+   blkid /dev/sda*
 
 *darle file system a una nueva particion
-mkfs.ext4 /dev/sda9
+   mkfs.ext4 /dev/sda9
 
 *lsblk
    lista las particiones atachadas a cada disco 
    lsblk
+   
+*fdisk  herramienta interactiva para creacion de particiones 
+   sudo fdisk /dev/disco
+   
+    m: Display the menu
+    p: List the partition table
+    n: Create a new partition
+    d: Delete a partition
+    t: Change a partition type
+    w: Write the new partition table information and exit
+    q: Quit without making changes.
+    
+*partprobe despues de crear una  particion hay que reinicia per oesta herramienta permite probarla sin reiniciar
+   sudo partprobe -s 
+
+

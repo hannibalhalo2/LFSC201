@@ -16,6 +16,34 @@
 
     lsattr file
     
+ *chattr cambiar atributos 
+  
+  chattr [-RV] +-=[AacDdijsSu] [-v versión] archivos 
+  
+  -opciones chattr
+      -R	Cambia de manera descendente los atributos de directorios y sus contenidos. Los enlaces simbólicos que se encuentren, son ignorado
+      -V	Salida de charttr más descriptiva, mostrando además la versión del programa.
+      -v	Ver el número de versión del programa.
+      Operadores.
+      +	Hace que se añadan los atributos especificados a los atributos existentes de un archivo.
+      -	Hace que se eliminen los atributos especificados de los atributos existentes de un archivo
+      =	Hace que se reemplacen los atributos existentes por los atributos especificados.
+      Atributos.
+      A	Establece que la fecha del último acceso (atime) no se modifica.
+      a	Establece que el archivo sólo se puede abrir en modo de adjuntar para escritura.
+      c	Establece que el archivo es comprimido automáticamente en el disco por el núcleo del sistema operativo. Al realizar lectura de este archivo, se descomprimen los datos. La escritura de dicho archivo comprime los datos antes de almacenarlos en el disco.
+      D	Cuando se trata de un directorio, establece que los datos se escriben de forma sincrónica en el disco. Es decir, los datos se escriben inmediatamente en lugar de esperar la operación correspondiente del sistema operativo. Es equivalente a la opción dirsync de mount, pero aplicada a un subconjunto de archivos.
+      d	Establece que el archivo no sea candidato para respaldo al utilizar la herramienta dump.
+      e	Indica que el archivo o directorio utiliza extensiones (extents) para la cartografía de bloques en la unidad de almacenamiento, particularmente de sistemas de archivos Ext4. Cabe señalar que chattr es incapaz de eliminar este atributo.
+      i	Establece que el archivo será inmutable. Es decir, se impide que el archivo sea eliminado, renombrado, que se pueden apuntar enlaces simbólicos hacia éste o escribir datos en el archivo.
+      j	En los sistemas de archivos ext3 y ext4, cuando se montan con las opciones data=ordered o data=writeback, se establece que el archivo será escrito en el registro por diario (Journal). Si el sistema de archivos se monta con la opción data=journal (opción predeterminada), todo el sistema de archivos se escribe en el registro por diario y por lo tanto el atributo no tiene efecto.
+      s	Cuando un archivo tiene este atributo, los bloques utilizados en el disco duro son escritos con ceros, de modo que los datos no se puedan recuperar por medio alguno. Es la forma más segura de eliminar datos.
+      S	Cuando el archivo tiene este atributo, sus cambios son escritos de forma sincrónica en el disco duro. Es decir, los datos se escriben inmediatamente en lugar de esperar la operación correspondiente del sistema operativo. Es equivalente a la opción sync de mount.
+      u	Cuando un archivo con este atributo es eliminado, sus contenidos son guardados permitiendo recuperar el archivo con herramientas para tal fin.
+  
+   -ejemplo convertir un archivo a inmutable
+   chattr +i algo.txt
+    
  *mkfs asigna file system a una particion
      mkfs [-t fstype] [options] [device-file]
      mkfs -t ext4 /dev/sda10

@@ -1,0 +1,91 @@
+*atributos extendidos de archivos
+      
+    i: Immutable
+    A file with the immutable attribute cannot be modified (not even by root). It cannot be deleted or renamed. No hard link can be created to it, and no data can be written to the file. Only the superuser can set or clear this attribute.
+    
+    a: Append-only
+    A file with the append-only attribute set can only be opened in append mode for writing. Only the superuser can set or clear this attribute.
+    
+    d: No-dump
+    A file with the no-dump attribute set is ignored when the dump program is run. This is useful for swap and cache files that you don't want to waste time backing up.
+    
+    A: No atime update
+    A file with the no-atime-update attribute set will not modify its atime (access time) record when the file is accessed but not otherwise modified. This can increase the performance on some systems because it reduces the amount of disk I/O on the system. 
+
+*listar atributos
+
+    lsattr file
+    
+ *mkfs asigna file system a una particion
+     mkfs [-t fstype] [options] [device-file]
+     mkfs -t ext4 /dev/sda10
+     
+ *fcsk herramienta para reparar filesystems
+     fsck [-t fstype] [options] [device-file]
+     $ sudo fsck -t ext4 /dev/sda10
+     $ sudo fsck.ext4 /dev/sda10 
+     
+    You can force a check of all mounted filesystems at boot by doing:
+    $ sudo touch /forcefsck
+    $ sudo reboot
+    
+ *mount monta file system 
+    sudo mount -t ext /dev/sdb4 /home
+    $ sudo mount /dev/sda2  /home
+    $ sudo mount LABEL=home /home
+    $ sudo mount    -L home /home
+    $ sudo mount UUID=26d58ee2-9d20-4dc7-b6ab-aa87c3cfb69a /home
+    $ sudo mount   -U 26d58ee2-9d20-4dc7-b6ab-aa87c3cfb69a /home
+    
+    -remontar un filesystem en read only
+    $ sudo mount -o remount,ro /myfs 
+    
+    -montando network filesytems
+        $ sudo mount -t nfs myserver.com:/shdir /mnt/shdir
+          -agregandolo a fstab para que lo monte cada reboot
+          myserver.com:/shdir /mnt/shdir nfs rsize=8192,wsize=8192,timeo=14,intr 0 0
+    
+    -mount -a 
+    monta todo lo qu e este en fstab 
+    
+    -automount filesystem solo se monta cuando es necesitado necesita el paquete autofs
+    LABEL=Sam128 /SAM ext4 noauto,x-systemd.automount,x-systemd.device-timeout=10,x-systemd.idle-timeout=30 0 0 
+    despues del reboot se montara cuando se acceda a el o reinicando el servicio
+    $ sudo systemctl daemon-reload
+    $ sudo systemctl restart local-fs.target 
+    
+    -mount help
+    mount --help
+    
+    -listar los filesystems montados actualmente
+    mount
+    
+  *umount desmonta filesystem
+        $ umount [device-file | mount-point]
+
+        Unmount the /home filesystem:
+        $ sudo umount /home
+        Unmount the /dev/sda3 device:
+        $ sudo umount /dev/sda3
+        
+        -si sale el error de device is busy
+        lsof +d /mnt/particionmontada
+        luego mate todos esos procesos 
+        
+   *dumpe2fs devuelve informacion de el filessytemparametro
+    dumpe2fs /dev/sda2
+        
+        
+          
+        
+        
+
+    
+    
+    
+    
+    
+    
+    
+    
+    

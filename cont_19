@@ -1,0 +1,39 @@
+-encender quotas
+    $ sudo quotaon -av
+    /dev/sda6 [/]: group quotas turned on
+    /dev/sda5 [/home]: user quotas turned on
+
+-apagar quotas
+    $ sudo quotaoff -av
+    /dev/sda6 [/]: group quotas turned off
+    /dev/sda5 [/home]: user quotas turned off
+
+ -reporte de quotas del usuario que corre el ocmando
+    quota o quota -u
+    
+ -reporta quotas de un usuario
+     $ sudo quota gracie
+        Disk quotas for user gracie (uid 1001):
+          Filesystem     blocks quota limit grace files quota limit grace
+            /dev/sda5     83757  5000 10000        5804     0     0
+            
+ -editar quotas
+
+      edquota -u [username] edits limits for username
+      edquota -g [groupname] edits limits for groupname
+      edquota -u -p [userproto] [username] copies userproto's user quota values to username
+      edquota -g -p [groupproto] [groupname] copies groupproto's group quota values to groupname
+      edquota -t to set grace periods
+
+-detectar peso en el filesystem
+   - df muestra el peso del file system completo 
+      df -hT
+   
+   - du tien opciones mas custom para ve los pesos
+      To display disk usage for the current directory: $ du
+      To list all files, not just directories: $ du -a
+      To list in human-readable format: $ du -h
+      To display disk usage for a specific directory: $ du -h somedir
+      
+      
+    

@@ -1,0 +1,23 @@
+*lista de parametros de kernel 
+https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
+
+*pasar parametros de kernel 
+  vmlinuz root=/dev/sda6 ..... noapic .... crashkernel=256M
+
+  linux16 /boot/vmlinuz-3.19.1.0 root=UUID=178d0092-4154-4688-af24-cda272265e08 ro \
+        vconsole.keymap=us crashkernel=auto vconsole.font=latarcyrheb-sun16 rhgb quiet LANG=en_US.UTF-8 
+        
+* ver parametros de kernel en ejecucion
+  sysctl -a 
+  
+ * asignar parametros en ejecucion
+  $ sudo sysctl net.ipv4.ip_forward=1
+  
+ * ver valor de parametro asigando 
+  $ sudo sysctl nombrecompletoparametro
+  $ sudo sysctl net.ipv4.ip_forward
+  
+ * asignmar parametro desde el archivo del parametro
+    -en /proc/sys/kernel lo claize el archivo de el parametro a cambiar 
+    -editelo con el valor que requiere
+    -salvelo

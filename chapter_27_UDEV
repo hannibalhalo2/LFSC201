@@ -1,0 +1,14 @@
+*ver device nodes 
+ls -l /dev
+
+*crear nodo de dispositivo
+mknod -m 666 /dev/mycdrv c 254 1
+
+*archivo configuracion
+/etc/udev/udev.conf
+
+*verejemplo regla 
+$ cat /usr/lib/udev/rules.d/nombreregla
+
+*ver dmesg continuo
+dmesg -w

@@ -68,7 +68,7 @@
     -remontar un filesystem en read only
     $ sudo mount -o remount,ro /myfs 
     
-    -montando network filesytems
+    -montando network filesytems (puede requerir este paquete como depedencia param montar nfs nfs-common)
         $ sudo mount -t nfs myserver.com:/shdir /mnt/shdir
           -agregandolo a fstab para que lo monte cada reboot
           myserver.com:/shdir /mnt/shdir nfs rsize=8192,wsize=8192,timeo=14,intr 0 0

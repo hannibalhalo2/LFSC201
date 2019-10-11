@@ -1,0 +1,27 @@
+*docker
+		
+
+    Install the Docker service package with your favorite tool
+
+    Start the Docker service
+
+    Search for an appropriate image from Docker Hub or your private repository
+
+    Pull the image
+
+    Run the image
+
+    And finally, test the application.
+
+
+ *comandos docker 
+ 	$ docker <command> --help
+
+ 	-arrancar contenedor
+ 	docker run
+
+ 	-crear contenedor
+ 	docker create
+
+ 	-borrar contenedor 
+ 	$ docker rm $(docker ps -a -q)

@@ -1,0 +1,111 @@
+*todas las configuraciones de usarios en 
+	/etc/passwd
+	
+	el placeholder x en el segundo campo significa que el password esta encriptado en en etc/shadow
+    
+    3 y 4 campo UID Y GID
+
+* creacion usuario 
+	$ sudo useradd -s /bin/csh -m -k /etc/skel -c "Bullwinkle J Moose" bmoose
+
+	el sistema copia el contenido de /etc/sckel a el home del usuario por la opcion -m 
+
+* borrar usuario borra todo menos el /home del usuario
+	$ sudo userdel morgan
+	-BORRAR TAMBNM EL HOME
+	$ sudo userdel -r morgan
+
+* modificar cuenta usermod tiene muchas opcionesdisponibles hay que ver el man o el --help
+  la linea de abajo bloquea la cuenta
+	$ sudo usermod -L dexter
+
+* quees unacuenta bloqueada son las que tienen nologin en /etc/passwd esas cuentas se usan para correr demonios o mierdas asi 
+
+* colocar fecha expiracion cuenta 
+	$ sudo chage -l dexter
+	$ sudo chage -m 14 -M 30 kevlin
+	$ sudo chage -E 2012-4-1 morgan
+	$ sudo chage -d 0 clyde
+	$ sudo chage -E 2014-09-11 morgan
+
+* campos de /etc/shadow
+				daemon:*:16141:0:99999:7:::
+		.....
+		beav:$6$iCZyCnBJH9rmq7P.$RYNm10Jg3wrhAtUnahBZ/mTMg.RzQE6iBXyqaXHvxxbKTYqj.d9wpoQFuRp7fPEE3hMK3W2gcIYhiXa9MIA9w1:16316:0:99999:7:::
+
+		The colon-separated fields are:
+
+		    username: unique user name
+		    password: the hashed (sha512) value of the password
+		    lastchange: days since Jan 1,1970 that password was last changed
+		    mindays: minimum days before password can be changed
+		    maxdays: maximum days after which password must be changed
+		    warn: days before password expires that the user is warned
+		    grace: days after password expires that account is disabled
+		    expire: date that account is/will be disabled
+		    reserved: reserved field
+
+* cambio password 
+	passwd user
+
+* bash restricted
+	bash -r 
+	que hace un bash restricted
+
+		    Prevents the user from using cd to change directories.
+		    Prevents the user from redefining the following environment variables: SHELL, ENV, and PATH.
+		    Does not permit the user to specify the absolute path or executable command names starting from /.
+		    Prevents the user from redirecting input and/or output.
+
+* cuentas restringidas
+	usan 
+    Uses the restricted shell
+    Limits available system programs and user applications
+    Limits system resources
+    Limits access times
+    Limits access locations.
+
+ *ssh
+
+ 	-archivos configuracion ssh bajo /home/user/.ssh  (donde guarda las llaves)
+ 			id_rsa: the user's private encryption key
+			id_rsa.pub: the user's public encryption key
+			authorized_keys: A list of public keys that are permitted to login
+			known_hosts: A list of hosts from which logins have been allowed in the past
+			config: A configuration file for specifying various options
+
+    -genrar llaves
+    	$ ssh-keygen
+
+    -explicacion de permitir acceso sin clave a otra maquina mediante llaves (30.18c)
+
+    -conexion ssh
+ 	$ whoami
+	student
+
+	$ ssh farflung.com
+	student@farflung.com's password: (type here)
+	$
+
+	where we are assuming there is a student account on farflung.com. To log in as a different user:
+
+	$ ssh root@farflung.com
+	root@farflung.com's password: (type here)
+
+	or
+
+	$ ssh -l root farflung.com
+	root@farflung.com's password: (type here)
+
+
+*scp 
+$ scp file.txt farflung.com:/tmp
+$ scp file.tex student@farflung.com/home/student
+$ scp -r some_dir farflung.com:/tmp/some_dir
+	-correr comandos en varias maquinas a la vez
+		$for machines in node1 node2 node3
+		do
+				(ssh $machines some_command &)
+		done
+
+*conexion ssh mediante clientes graficos mediante vnc

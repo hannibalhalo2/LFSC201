@@ -1,0 +1,14 @@
+*ver si cpu soporta vistualizacion 
+cat /proc/cpuinfo
+if you have an AMD-V capable chip, you will see svm in the flag fileds
+
+*el vmware Esx hipervisor enbebido en el sistema opertativo
+
+*qemu recibe principalmente raw y qcow2 
+tambn convierte vdi to vmdk y viceversa
+$ qemu-img convert -O vmdk myvm.qcow2 myvm.vmdk
+
+*ver formatos soportados por qemu
+qemu-img --help | grep formats:
+
+*hypervisor cualquier programa desde el que gestiono vms

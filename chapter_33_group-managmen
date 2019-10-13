@@ -1,0 +1,18 @@
+*archivos grupos
+	/etc/group
+
+*agregar grupo 
+	groupadd:  Add a new group.
+	sudo groupadd -r -g 215 staff
+
+*modificar grupos (modificar propiedades de un grupo)
+	$ sudo groupmod -g 101 blah
+
+*eliminar grupos
+	$ sudo groupdel newgroup
+
+*grupos privados 
+	son los grupos que se crean con el mismo nombre del usuario
+
+*grupo primario el que aparece en el /etc/passwd
+el usuario puede estar de 0-15 grupos secundarios

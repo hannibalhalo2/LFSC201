@@ -1,0 +1,62 @@
+*cambio de grupo primario archivo
+	$ chgrp cleavers somefile
+
+
+
+* umask permite cambiar los permisos para directorios y archivos que se creen al permiso por default   se  le resta el permiso deseado como se ve abajo 664-644 = 20 por lo que se haria el comando umask 20
+	    "EN RESUMEN UMASK SOLO QUITA PERMISOS A RAIZ DE EL PERMISO BASE QUE ES 666(RW-RW-RW) POR LO CUAL SE 
+
+	 si tomamos el 020 de ejemplo 0(es para usuario) 2(para grupo) 0(para otros) eso daria como resultado no tocar los permisos de usuario quitar escritura y no tocar los del os otros para resetear el umnask use umask 0000
+	por lo cuale pueden ser sustiruidos por losde la siguiente tabla
+
+		usuario 
+		codigo umask | permisos
+			0        | no toca los permisos de usario
+			4   	 | quita lectura
+			2        | quita escritura
+		    1        | quita execucion
+
+		grupo 
+		codigo umask | permisos
+			0        | no toca los permisos de grupo
+			4   	 | quita lectura
+			2        | quita escritura
+		    1        | quita execucion
+
+		otros
+		codigo umask | permisos
+			0        | no toca los permisos de otros
+			4   	 | quita lectura
+			2        | quita escritura
+		    1        | quita execucion
+
+
+	solo la tabla funciona olvide esa resta
+
+	permiso BASE 666 rw rw rw
+				 420 r---w----  resta = 666-420=246
+				 ---vuelvo a valor base umask 000---
+	             676 rw-rw---   resta = 666-660
+
+	(CUANDO SE REQUIERE QUITAR 2 PERMISOS A LA VEZ EJEMPLO QUIERO QUITAR RW DE OTROS Y NO TOCAR LOS DEMAS PERMISOS SERIA UMASK 006 (4 PARA QUITAR LECTURA Y 2 PARA QUITAR ESCRITURA DE OTROS EL EL ULTIMO DIGITO))
+
+*ACL  LISTAS DE CONTROL DE ACCESO
+	SON permisos de control de ficheros y directorios extendidos se nota que un archivo posee acl cuando
+	se ve un mas al final de la salida ls -l
+	-rw-rwx---+ 1 jvela jvela   11 mar 22 16:14 prueba
+
+	-ver permisos de acl de un fichero
+	$ getfacl file|directory
+
+	-asignar permisos
+	$ setfacl options permissions file|directory
+	$ setfacl -m u:isabelle:rx /home/stephane/file1
+	$ setfacl -x u:isabelle    /home/stephane/file
+
+    -quitar acl
+    $ setfacl -x u:isabelle /home/stephane/file1
+
+    -asigna reglas de acl por default en ese directorio 
+    $ setfacl -m d:u:isabelle:rx somedir
+
+

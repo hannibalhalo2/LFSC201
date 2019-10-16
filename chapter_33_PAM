@@ -1,0 +1,15 @@
+*archivo configuracion pam
+	/etc/pam.d/ 
+
+*pasos autenticacion
+	Several steps are involved in authentication:
+
+    -A user invokes a PAM-aware application, such as login, ssh, or su.
+     The application calls libpam.
+    
+    -The library checks for files in /etc/pam.d; these delineate which PAM modules to invoke, including  system-auth.
+    
+    -Each referenced module is executed in accordance with the rules of the relevant configuration file  for that application.
+
+*formato reglas en /etc/pam.d/su
+	type control module-path module-arguments

@@ -1,0 +1,14 @@
+*hostname
+	-ver hostname
+		$ hostname
+
+	-cambiar hostname
+		$ sudo hostname lumpy
+
+	-archivo hostname (este cambio no es persistente)
+		/etc/hostname 
+
+	-cambiarlo por hostnamectl
+		hostnamectl
+		$ sudo hostnamectl set-hostname MYPC
+		$ hostnamectl

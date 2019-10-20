@@ -1,0 +1,106 @@
+*ip command line utility used to configure, control and query interface parameters and control devices, routing, etc. (opciones de ip diapositiva  5_b)
+
+	ip [ OPTIONS ] OBJECT { COMMAND | help }
+	ip [ -force ] -batch filename
+
+	The ip utility can be used in many ways, such as:
+
+    Show information for all network interfaces:
+    $ ip link show
+    
+    Show information for the eth0 network interface, including statistics:
+    $ ip -s link show eth0
+   
+    Set the IP address for eth0:
+    $ sudo ip addr add 192.168.1.7 dev eth0
+   
+    Bring eth0 down:
+    $ sudo ip link set eth0 down
+  
+    Set the MTU to 1480 bytes for eth0:
+    $ sudo ip link set eth0 mtu 1480
+   
+    Set the networking route:
+    $ sudo ip route add 172.16.1.0/24 via 192.168.1.5
+
+*ifconfig
+	
+    Display information about all interfaces:
+    $ ifconfig
+    
+    Display information about only eth0:
+    $ ifconfig eth0
+    
+    Set the IP address to 192.168.1.50 on interface eth0:
+    $ sudo ifconfig eth0 192.168.1.50
+    
+    Set the netmask to 24-bit:
+    $ sudo ifconfig eth0 netmask 255.255.255.0
+   
+    Bring interface eth0 up:
+    $ sudo ifconfig eth0 up
+   
+    Bring interface eth0 down:
+    $ sudo ifconfig eth0 down
+
+    Set the MTU (Maximum Transfer Unit) to 1480 bytes for interface eth0:
+    $ sudo ifconfig eth0 mtu 1480
+
+ *archivos de configuracion
+    /etc/network/interfaces
+
+
+*aplicaciones para configurar red de forma facil
+	nmtui  (tiene interfaz grafica pero la fondo azul que corre en la terminal :v )
+	nmcli  (lo mismo pero por linea de comandos) man nmcli -examples
+
+
+*ROUTE 
+ is the process of selecting paths in a network along which to send network traffic. The routing table is a list of routes to other networks managed by the system. It defines paths to all networks and hosts, sending remote traffic to routers
+ 	$ route -n
+    $ ip route 
+
+    -agregando default gateway
+    $ sudo route add default gw 192.168.1.10 enp2s0
+    $ route
+    -reseteando gateway
+    $ sudo route add default gw 192.168.1.1 enp2s0
+
+    -configurar ruta estatica
+    $ sudo ip route add 10.5.0.0/16 via 192.168.1.100
+    $ route
+
+    -anadiendo ruta estatica desde archivo /etc/network/interfaces
+    iface eth1 inet dhcp
+    post-up route add -host 10.1.2.51 eth1
+    post-up route add -host 10.1.2.52 eth1
+
+    *dns
+    si se quiere hacer dns estatico pues igual que ne windows metalo en /etc/hosts
+    archivo de configuraciuon de servidores de dns /etc/resolv.conf
+
+    *ping
+	    Send 64-byte test packets to designated network hosts and (if it finds them) tries to report back on the time required to reach it (in milliseconds), any lost packets, and some other parameters. Note that the exact output will vary according to the host being targeted, but you can at least see that the network is working and the host is reachable.
+        $ ping -c 10 linuxfoundation.org
+
+	*traceroute
+	    Is used to display a network path to a destination. It shows the routers packets flow through to get to a host, as well as the time it takes for each hop.
+
+        $ traceroute linuxfoundation.org
+
+	*mtr
+	    Combines the functionality of ping and traceroute and creates a continuously updated display, like top.
+	
+    $ mtr linuxfoundation.org
+
+	*dig
+	    Is useful for testing DNS functionality. Note that one can also use host or nslookup, older programs that also try to return DNS information about a host.
+
+	
+
+
+
+
+
+
+

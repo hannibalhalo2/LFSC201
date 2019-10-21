@@ -1,0 +1,101 @@
+*herramientas para configurar firewall
+	-Bajo nivel 	
+		iptables
+        firewall-cmd
+        ufw
+
+	-con interfaz grafica
+        system-config-firewall
+		firewall-config
+	    gufw
+ 	    yast
+
+*firewalld = Dynamic Firewall Manager. It utilizes network/firewall zones which have defined levels of trust for network interfaces or connections. It supports both IPv4 and IPv6 protocols.
+
+	-archivos de configuracion
+	/etc/firewalld  
+	/usr/lib/firewalld
+	/etc/firewalld 
+
+	-$ firewall-cmd --help
+
+	-levantar servicio
+	$ sudo systemctl [enable/disable] firewalld
+	$ sudo systemctl [start/stop] firewalld
+	$ sudo systemctl status firewalld
+	$ sudo firewall-cmd --state
+
+	-Get the default zone:  (las zonas estan en la diapositiva 11) 
+		$ sudo firewall-cmd --get-default-zone
+		public
+
+	-Obtain a list of zones currently being used:
+		$ sudo firewall-cmd --get-active-zones
+		public
+		  interfaces: eno16777736
+
+	-List all available zones:
+		$ sudo firewall-cmd --get-zones
+		block dmz drop external home internal public trusted work
+
+	-To change the default zone to trusted and then change it back!
+		$ sudo firewall-cmd --set-default-zone=trusted
+		success
+		$ sudo firewall-cmd --set-default-zone=public
+		success
+
+	-To assign an interface temporarily to a particular zone:
+		$ sudo firewall-cmd --zone=internal --change-interface=eno1
+		success
+
+    -To assign an interface to a particular zone permanently:
+		$ sudo firewall-cmd --permanent --zone=internal --change-interface=eno1
+		success
+		which creates the file /etc/firewalld/zones/internal.xml.
+
+	-To ascertain the zone associated with a particular interface:
+		$ sudo firewall-cmd --get-zone-of-interface=eno1
+		public
+
+	-Finally, to get all details about a particular zone:
+	$ sudo firewall-cmd --zone=public --list-all
+	public (default, active)
+	  interfaces: eno16777736
+	  sources:
+	  services: dhcpv6-client ssh
+	  ports:
+	  masquerade: no
+	  forward-ports:
+	  icmp-blocks:
+	  rich rules:
+
+	-To assign a source to a zone (permanently):
+	$ sudo firewall-cmd --permanent --zone=trusted --add-source=192.168.1.0/24
+	success
+
+	-You can list the sources bound to a zone with:
+	$ sudo firewall-cmd --permanent --zone=trusted --list-sources
+	192.168.1.0/24
+
+	-To see all the services available:
+	$ sudo firewall-cmd --get-services
+
+	-to see those currently accessible in a particular zone:
+	$ sudo firewall-cmd --list-services --zone=public
+	dhcpv6-client ssh
+
+	-To add a service to a zone:
+	$ sudo firewall-cmd --permanent --zone=home --add-service=dhcp
+	success
+	$ sudo firewall-cmd --reload
+
+	-PORT mangement
+		Port management is very similar to service management:
+		$ sudo firewall-cmd --zone=home --add-port=21/tcp
+		success
+		$ sudo firewall-cmd --zone=home --list-ports
+		21/tcp
+
+		-where by looking at /etc/services we can ascertain that port 21 corresponds to ftp:
+		$ grep " 21/tcp" /etc/services
+		ftp                21/tcp

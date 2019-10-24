@@ -1,0 +1,5 @@
+-apagar
+	$ sudo shutdown -h +1 "Power Failure imminent"
+	$ sudo shutdown -h now
+	$ sudo shutdown -r now
+	$ sudo shutdown now

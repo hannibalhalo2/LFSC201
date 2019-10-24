@@ -1,0 +1,7 @@
+*install grub2
+	$ sudo grub2-install /dev/sda 
+
+*archivo configuracion grub
+	 /etc/default/grub.
+
+*en el grub si se presiona e se puede editar la linea de booteo la cual es la que empieza por linux16 o algo asi en esa linea esta el runlevel y el quiet (para ver todo el debug) ademas se quita el rgb para entrar por consola , boote , logea y arranca el gdm desde systemctl start gdm

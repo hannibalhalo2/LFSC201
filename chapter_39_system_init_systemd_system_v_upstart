@@ -1,0 +1,119 @@
+*algunos archivos de configuracion en systemd
+
+    /etc/vconsole.conf: default keyboard mapping and console font.
+    /etc/sysctl.d/*.conf: drop-in directory for kernel sysctl parameters.
+    /etc/os-release: distribution ID file.
+
+*systemctl
+
+	systemctl is the main utility for managing services. Its basic syntax is:
+
+	$ systemctl [options] command [name]
+
+	-Below you can see some examples of how you can use systemctl:
+
+    	To show the status of everything that systemd controls:
+    	$ systemctl
+    
+    	To show all available services:
+    	$ systemctl list-units -t service --all
+    
+    	To show only active services:
+    	$ systemctl list-units -t service
+    
+    	To start (activate) or stop (deactivate) one or more units:
+    	$ sudo systemctl start foo
+    	$ statusdo systemctl start foo.service
+    	$ sudo systemctl start /path/to/foo.service
+    	$ sudo systemctl stop foo.service
+    	$ sudo systemctl status service
+
+   		where a unit can be a service or a socket.
+    	To enable/disable a service:
+    	$ sudo systemctl enable sshd.service
+    	$ sudo systemctl disable sshd.service
+
+    	iniciar un servicio al inico del pc
+    	systemctl enable nombreservicio
+
+    	que un servicio no inicie al servicio
+    	systemctl disable servicio
+
+EN LA CARPETA GUEARDE EL DOCUMENTO DE EQUIVALENCIAS DE INIT A SYSTEMD
+
+*runlevels
+
+		S, s     	Same as 1
+		0 	Shutdown system and turn power off
+		1 	Single User Mode
+		2 	Multiple user, no NFS, only text login
+		3 	Multiple user, with NFS and network, only text login
+		4 	Not used
+		5 	Multiple user, with NFS and network, graphical login with X
+		6 	Reboot
+
+	-ver en que runlevel esta
+	$ runlevel
+
+	-moverse a runlevel
+	$ sudo /sbin/telinit 5
+
+*chkconfig 
+	 is used to query and configure what runlevels the various system services are to run in
+
+
+    	-Check a particular service to see if it is set up to run in the current runlevel:
+
+    	-This will return true if the service is configured to be running, false otherwise. You should note that even if it is configured to be running, it might currently be stopped.
+        See what services are configured to run in each of the runlevels:
+
+    	$ chkconfig some_service
+
+    	-See what services are configured to run in each of the runlevels:	
+    	$ chkconfig --list [service names]
+    	
+    	-Turn on a certain service next time the system boots:
+		$ sudo chkconfig some_service on
+    
+    	-Do not turn a certain service on next time the system boots:
+         $ chkconfig some_service off
+    
+    	You should note that the on and off do not affect the current state by starting or stopping a service. You would have to do that with:
+		$ sudo service some_service [stop | start]
+
+*servicios 
+	-directorio de los servicios 
+	/etc/init.d
+
+	-$ sudo service network status
+
+	Configured devices:
+	lo eth0 eth1 eth2 wlan0
+	Currently active devices:
+	lo eth0
+
+	-$ sudo service vsftpd status
+	vsftpd (pid 5284) is running...
+
+	service takes a number of options, which vary according to the particular service; for example:
+
+	-$ sudo service network
+
+	Usage: /etc/init.d/network {start|stop|restart|reload|status}
+
+	-$ sudo service iptables
+
+	Usage: /etc/init.d/iptables {start|stop|restart|condrestart|status|panic|save}
+
+	-ver estado todos los servicios
+	$ sudo service --status-all
+
+	acpid (pid 4170) is running...
+	anacron (pid  4540) is running... 
+	atd (pid  4553) is running...
+	....
+	smartd (pid 4614) is running... 
+	smbd is stopped
+	......
+
+

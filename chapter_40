@@ -1,0 +1,173 @@
+*tar 
+	
+    -When creating a tar archive, for each directory given as an argument, all files and subdirectories will be included in the archive
+    -When restoring, it reconstitutes directories as necessary
+    -It even has a --newer option that lets you do incremental backups
+    -The version of tar used in Linux can also handle backups that do not fit on one tape or whatever device you use.
+
+    -create an archive using -c or --create , You can specify a device or file with the -f or --file option.
+    	$ tar --create --file /dev/st0 /root
+	    $ tar -cvf /dev/st0 /root
+
+	-Create with multi-volume option, using -M or --multi-volume if your backup won't fit on one device: You will be prompted to put the next tape when needed.
+		$ tar -cMf /dev/st0 /root
+
+	-Verify files with the compare option, using -d or --compare:
+		$ tar --compare --verbose --file /dev/st0
+		$ tar -dvf /dev/st0
+
+
+	-Restaurando con tar
+		-The -x or --extract option extracts files from an archive, all by default. One can narrow the file extraction list by specifying only particular files. If a directory is specified, all included files and subdirectories are also extracted.
+
+		-The -p or --same-permissions options ensures files are restores with their original permissions.
+
+		-The -t or --list option lists, but does not extract, the files in the archive.
+
+	-ejemplos
+
+    -Extract from an archive:
+    $ tar --extract --same-permissions --verbose --file /dev/st0
+    $ tar -xpvf /dev/st0
+    $ tar xpvf /dev/sts0
+    
+    -Specify only specific files to restore:
+    $ tar xvf /dev/st0 somefile
+    List the contents of a tar backup:
+    $ tar --list --file /dev/st0
+    $ tar -tf /dev/st0
+
+    -backup incremental 
+    $ tar --create --newer '2011-12-1' -vf backup1.tar /var/tmp
+	$ tar --create --after-date '2011-12-1' -vzf backup1.tar /var/tmp
+
+*compression
+
+	The compression utilities are very easily (and often) used in combination with tar:
+
+	$ tar zcvf source.tar.gz source
+
+	$ tar jcvf source.tar.bz2 source
+
+	$ tar Jcvf source.tar.xz source
+
+	for producing a compressed archive. Note that the first command has the exact same effect as doing:
+
+	$ tar cvf source.tar source ; gzip -v source.tar
+
+*descompression
+	
+	$ tar xzvf source.tar.gz
+
+	$ tar xjvf source.tar.bz2
+
+	$ tar xJvf source.tar.xz
+
+	or even simpler:
+
+	$ tar xvf source.tar.
+
+*dd (Disk Destroyer) :v 
+
+	copia de un lado a otro de bajo nivel yo oslo lo uso para copiar ceros y random
+	dd is often used to read fixed amounts of data from special device nodes such as /dev/zero or /dev/random. The basic syntax is:
+
+	$ dd if=input-file of=output-file options
+
+	if the input or output files are not specified, the default is to use stdin and stdout. Doing:
+
+	$ dd --help
+
+	-ejemplos
+
+	Here are some examples of using dd:
+
+    -Create a 10 MB file filled with zeros:
+	$ dd if=/dev/zero of=outfile  bs=1M count=10
+    
+    -Backup an entire hard drive to another (raw copy):
+	$ dd if=/dev/sda of=/dev/sdb
+    
+    -Create an image of a hard disk (which could later be transferred to another hard disk):
+	$ dd if=/dev/sda of=sdadisk.img
+    
+   	-Backup a partition:
+	$ dd if=/dev/sda1 of=partition1.img
+    
+    -Use dd in a pipeline:
+	$ dd if=ndata conv=swab count=1024 | uniq > ofile
+
+*rsync la mejor forma de copiar de un punto a otro de la red 
+
+	$ rsync [options] source destination
+	$ rsync file.tar someone@backup.mydomain:/usr/local
+	$ rsync -r a-machine:/usr/local b-machine:/usr/
+	$ rsync -r --dry-run /usr/local /BACKUP/usr
+
+	-ejemplo de copiado
+	$ rsync -r project-X archive-machine:archives/project-X
+
+*cpio copia pero es muy viejo
+	
+    Create an archive, use -o or --create:
+    $ ls | cpio --create -O /dev/st0
+    Extract from an archive, use -i or --extract:
+    $ cpio -i somefile -I /dev/st0
+    List contents of an archive, use -t or --list:
+    $ cpio -t -I /dev/st0
+
+*dump and restore 
+	solo funciona en ext2 ext3 ext4 para otros fs usar otras herramoientas tales como xfs dump
+
+	-dump options
+	dump has a number of options, including letting you set parameters. Some of these include:
+
+    -0-9
+    Dump level:  Level 0 is full backup and higher numbers are incremental backups.
+    -B records
+    Records per volume.
+    -b blocksize
+    KB per record.
+    -f file
+    Output device or file.
+    -u
+    Update /etc/dumpdates.
+    -W
+
+    -restore options
+    $ sudo restore -rvf /tmp/boot_backup
+
+    	-r Restores everything. The dumped material is read and the complete contents are loaded into the current directory.
+    	-t the Files and directories specified are listed on standard output if they reside on the backup. If no file argument is specified, the root directory on the backup  is listed. No actual restore is performed with this option.
+    
+    	-x The files and directories named are extracted from the backup. If the named file matches a directory on the backup, the directory is recursively extracted. If no argument is listed, then all contents of the backup are extracted.
+    
+ 	   -i This mode allows the interactive restoration of files from the backup. After reading in the directory information from the backup, restore provides a shell-like interface that allows the user to move around the directory tree selecting files to be extracted.
+
+		You cannot use -r and -x at the same time.
+
+*mt
+	herrmienta utilizada para controla cintas magenticas
+
+		mt [-h] [-f device] operation [count] [arguments...]
+
+	    -h: is for displaying usage (help)
+	    -f device: is for specifying the tape device
+	    operation: is one of the tape operations
+	    count: is used for some operations which can repeat (default is 1)
+	    arguments: are used for some operations.
+
+
+	    Show status information about the tape device:
+	    $ mt status
+	    Rewind the tape:
+	    $ mt rewind
+	    Erase the tape:
+	    $ mt erase
+	    Move forward to the end of the current archive:
+	    $ mt fsf
+
+*programas para hacer backup
+	amanda
+	bacula
+	clonezilla 

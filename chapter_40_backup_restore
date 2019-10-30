@@ -1,3 +1,50 @@
+* a que hacerle backup 
+
+	
+    Definitely:
+    ​​- Business-related data
+    - System configuration files
+    - User files (usually under /home)
+    Maybe:
+    - Spooling directories (for printing, mail, etc.)
+    - Logging files (found in /var/log, and elsewhere)
+    Probably not:
+    - Software that can easily be re-installed; on a well-managed system, this should be almost everything
+    - The /tmp directory, because its contents are indeed supposed to be only temporary
+    Definitely not:
+    - Pseudo-filesystems such as /proc, /dev and /sys
+    - Any swap partitions or files.
+
+
+ * tipos de backup
+
+
+    -Full
+    	Backup all files on the system.
+    -Incremental
+    	Backup all files that have changed since the last incremental or full backup.
+    -Differential
+    	Backup all files that have changed since the last full backup.
+    -Multiple level incremental
+    	Backup all files that have changed since the previous backup at the same or a previous level.
+    -User
+    	Backup only files in a specific user's directory.
+
+*herramientas para hacer backup
+
+    -cpio
+    -tar
+    -gzip, bzip2, xz
+	    cpio and tar create and extract archives of files. The archives are often compressed with gzip, bzip2, or xz. The archive file may be written to disk, magnetic tape, or any other device which can hold files. Archives are very useful for transferring files from one filesystem or machine to another.
+	-dd
+	    This powerful utility is often used to transfer raw data between media. It can copy entire partitions or entire disks.
+	-rsync
+	    This powerful utility can synchronize directory subtrees or entire filesystems across a network, or between different filesystem locations on a local machine.
+	-dump and restore
+	    These ancient utilities were designed specifically for backups. They read from the filesystem directly (which is more efficient). However, they must be restored only on the same filesystem type that they came from. There are newer alternatives.
+	-mt
+    	Useful for querying and positioning tapes before performing backups and restores.
+	
 *tar 
 	
     -When creating a tar archive, for each directory given as an argument, all files and subdirectories will be included in the archive

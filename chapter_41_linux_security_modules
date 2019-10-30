@@ -1,0 +1,245 @@
+*restorecon
+resetea el contexto del archivo
+
+$ ls -Z
+-rw-rw-r--. peter peter unconfined_u:object_r:user_home_t:s0 homefile
+-rw-rw-r--. peter peter unconfined_u:object_r:user_tmp_t:s0 tmpfile
+
+$ restorecon -Rv /home/peter
+restorecon reset /home/peter/tmpfile context \
+unconfined_u:object_r:user_tmp_t:s0->unconfined_u:object_r:user_home_t:s0 
+
+$ ls -Z
+-rw-rw-r--. peter peter unconfined_u:object_r:user_home_t:s0 homefile
+-rw-rw-r--. peter peter unconfined_u:object_r:user_home_t:s0 tmpfile
+
+*semanage
+es como el umask pero para contextos muestra que permisos son los defaults para el contexto 
+
+	[root@rhel7 /]# mkdir /virtualHosts
+	[root@rhel7 /]# ls -Z
+	...
+	drwxr-xr-x. root root unconfined_u:object_r:default_t:s0 virtualHosts
+	[root@rhel7 /]# semanage fcontext -a -t httpd_sys_content_t /virtualHosts
+	[root@rhel7 /]# ls -Z
+	...
+	drwxr-xr-x. root root unconfined_u:object_r:default_t:s0 virtualHosts
+	[root@rhel7 /]# restorecon -RFv /virtualHosts
+	restorecon reset /virtualHosts context unconfined_u:object_r:default_t:s0->system_u:object_r:httpd_sys_content_t:s0
+	[root@rhel7 /]# ls -Z
+	drwxr-xr-x. root root system_u:object_r:httpd_sys_content_t:s0 virtualHosts
+
+
+*boolenaos
+
+	en vez de re escribir las politicas de pueden activar y desactivar mediante booleanos
+
+    getsebool - to see booleans
+    setsebool - to set booleans
+    semanage boolean -i - to see persistent boolean settings.
+    getsebool  -a
+
+    -An example of non-persistent change using setsebool:
+	$ getsebool ssh_chroot_rw_homedirs
+	ssh_chroot_rw_homedirs --> off
+	
+	$ sudo setsebool ssh_chroot_rw_homedirs on
+	$ getsebool ssh_chroot_rw_homedirs
+	ssh_chroot_rw_homedirs --> on
+
+	$ sudo reboot
+	...
+	$ getsebool ssh_chroot_rw_homedirs
+	ssh_chroot_rw_homedirs --> off
+
+	-An example of persistent change using setsebool  -P:
+
+	$ getsebool ssh_chroot_rw_homedirs
+	ssh_chroot_rw_homedirs --> off
+	$ sudo setsebool -P ssh_chroot_rw_homedirs on
+	$ getsebool ssh_chroot_rw_homedirs
+	ssh_chroot_rw_homedirs --> on
+	$ sudo reboot
+    ...
+    $ getsebool ssh_chroot_rw_homedirs
+	ssh_chroot_rw_homedirs --> on
+
+* solucionando problemas 
+	para solucionar problemas hay que activar el setroubleshoot-server package aqui hay un ejemplo de uso
+
+	[root@rhel7 ~]# echo 'File created at /root' > rootfile
+	[root@rhel7 ~]# mv rootfile /var/www/html/
+	[root@rhel7 ~]# wget -O - localhost/rootfile
+	--2014-11-21 13:42:04--  http://localhost/rootfile
+	Resolving localhost (localhost)... ::1, 127.0.0.1
+	Connecting to localhost (localhost)|::1|:80... connected.
+	HTTP request sent, awaiting response... 403 Forbidden
+	2014-11-21 13:42:04 ERROR 403: Forbidden.
+
+	como se puede ver la copia del archivo da error vamos al log
+
+	[root@rhel7 ~]# tail /var/log/messages
+
+		Nov 21 13:42:04 rhel7 setroubleshoot: Plugin Exception restorecon
+
+		Nov 21 13:42:04 rhel7 setroubleshoot: SELinux is preventing /usr/sbin/httpd from getattr access on the file .
+
+		For complete SELinux messages. run sealert -l d51d34f9-91d5-4219-ad1e-5531e61a2dc3
+
+		Nov 21 13:42:04 rhel7 python: SELinux is preventing /usr/sbin/httpd from getattr access on the file .
+
+		*****  Plugin catchall (100. confidence) suggests  **************************
+
+		If you believe that httpd should be allowed getattr access on the  file by default.
+
+		Then you should report this as a bug.
+
+		You can generate a local policy module to allow this access.
+
+		Do
+
+		allow this access for now by executing
+
+		# grep httpd /var/log/audit/audit.log | audit2allow -M mypol
+
+		# semodule -i mypol.pp
+
+
+
+	
+	/*/*/*--- segun el log vamos al sealert para ver que esta pasando 
+
+
+
+
+		[root@rhel7 ~]#  sealert -l d51d34f9-91d5-4219-ad1e-5531e61a2dc3
+
+		SELinux is preventing /usr/sbin/httpd from getattr access on the file .
+
+		*****  Plugin catchall (100. confidence) suggests  **************************
+
+		If you believe that httpd should be allowed getattr access on the  file by default.
+
+		Then you should report this as a bug.
+
+		You can generate a local policy module to allow this access.
+
+		Do
+
+		allow this access for now by executing:
+
+		# grep httpd /var/log/audit/audit.log | audit2allow -M mypol
+
+		# semodule -i mypol.pp
+
+		Additional Information:
+		Source Context system_u:system_r:httpd_t:s0
+		Target Context unconfined_u:object_r:admin_home_t:s0
+		Target Objects [ file ]
+		Source httpd
+		Source Path /usr/sbin/httpd
+		Port <Unknown>
+		Host rhel7
+		Source RPM Packages httpd-2.4.6-18.el7_0.x86_64
+		Target RPM Packages
+		Policy RPM selinux-policy-3.12.1-153.el7_0.11.noarch
+		Selinux Enabled True
+		Policy Type targeted
+		Enforcing Mode Enforcing
+		Host Name rhel7
+		Platform Linux rhel7 3.10.0-123.9.3.el7.x86_64 #1 SMP Thu
+		Oct 30 00:16:40 EDT 2014 x86_64 x86_64
+		Alert Count 2
+		First Seen 2014-11-21 12:34:13 CET
+		Last Seen 2014-11-21 13:42:04 CET
+		Local ID d51d34f9-91d5-4219-ad1e-5531e61a2dc3
+
+		Raw Audit Messages
+		type=AVC msg=audit(1416573724.395:1598): avc: denied { getattr } for pid=20180 comm="httpd"
+		path="/var/www/html/rootfile" dev="dm-0" ino=70624441 scontext=system_u:system_r:httpd_t:s0
+		tcontext=unconfined_u:object_r:admin_home_t:s0 tclass=file
+
+		type=SYSCALL msg=audit(1416573724.395:1598): arch=x86_64 syscall=lstat success=no exit=EACCES
+		a0=7f2896ed0578 a1=7fffcc64fb30 a2=7fffcc64fb30 a3=0 items=0 ppid=20178 pid=20180
+		auid=4294967295 uid=48 gid=48 euid=48 suid=48 fsuid=48 egid=48 sgid=48 fsgid=48 tty=(none)
+		ses=4294967295 comm=httpd exe=/usr/sbin/httpd subj=system_u:system_r:httpd_t:s0 key=(null)
+
+		Hash: httpd,httpd_t,admin_home_t,file,getattr
+
+
+
+* generar politicas ediante audit2allow
+
+	audit2allow genera politicas de selinux a partir de logs de denegacion de operaciones
+
+		$ grep httpd /var/log/audit/audit.log |  audit2allow -M mypol
+
+	tambn se puede hacer la misma tarea con restorecon
+
+		[root@rhel7 ~]# restorecon -Rv /var/www/html/
+		restorecon reset rootfile context unconfined_u:object_r:admin_home_t:s0->unconfined_u:object_r:httpd_sys_content_t:s0
+
+		[root@rhel7 ~]# wget -q -O - localhost/rootfile
+		File created at /root
+
+*selinux manuales
+	https://docs.fedoraproject.org/en-US/Fedora/25/html/SELinux_Users_and_Administrators_Guide/
+
+	https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/security-enhanced_linux/index
+
+*apparmor
+	la mayotia de veces sube desde el boot
+	$ sudo systemctl [start|stop|restart|status] apparmor
+	$ sudo systemctl [enable|disable} apparmor
+
+	$ sudo apparmor_status
+	apparmor module is loaded.
+	25 profiles are loaded.
+	25 profiles are in enforce mode.
+	    /sbin/dhclient
+
+	-profiles estan en el archivo /etc/apparmor.d
+
+        -Enforce Mode
+	    Applications are prevented from acting in ways which are restricted. Attempted violations are reported to the system logging files. This is the default mode. A profile can be set to this mode with aa-enforce.
+	    
+	    -Complain Mode
+	    Policies are not enforced, but attempted policy violations are reported. This is also called the learning mode. A profile can be set to this mode with aa-complain.
+
+	    para cada binario existe un profile en /etc/apparmor.d
+
+
+	-apparmor tieen algunas herramientas adminsitraticas aqui sep ueden ver las de suse
+    $ rpm -qil apparmor-utils | grep bin​
+
+	/usr/bin/aa-easyprof
+	/usr/sbin/aa-audit
+	/usr/sbin/aa-autodep
+	/usr/​sbin/aa-cleanprof
+	/usr/sbin/aa-complain
+	/usr/sbin/aa-decode
+	/usr/sbin/aa-disable
+	/usr/sbin/aa-enforce
+	/usr/sbin/aa-exec
+	....
+	/usr/sbin/complain
+	/usr/sbin/decode
+	/usr/sbin/disable
+	/usr/sbin/enforce
+	....
+
+	-apparmor utilities
+	apparmor_status 	Show status of all profiles and processes with profiles
+
+	apparmor_notify 	Show a summary for AppArmor log messages
+
+	complain 			Set a specified profile to complain mode
+
+	enforce 			Set a specified profile to enforce mode
+
+	disable 			Unload a specified profile from the current kernel and
+	 					prevent from being loaded on system startup
+
+	logprof 			Scan log files, and, if AppArmor events that are not covered 					 by existing profiles have been recorded, suggest how to take 					  into account, and, if approved, modify and reload
+
+	easyprof 			Help set up a basic AppArmor profile for a program

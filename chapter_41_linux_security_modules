@@ -1,3 +1,53 @@
+*archivos configuracion selinux
+	/etc/selinux/config  --> explicacion modos
+	/etc/sysconfig/selinux  --> simbolico de lo de arriba
+	sestatus devuelve el modo de selinux en que esta
+
+	-to examine or set the current mode, one can use getenforce and setenforce (setea un modo):
+
+	$ getenforce
+	Disabled
+
+	$ sudo setenforce Permissive
+	$ getenforce
+	Permissive
+
+	-Kernel parameter
+	Add selinux=0 to the kernel parameter list when rebooting.
+
+	-policies
+		multiples politicas puedesn ser permitidas pero solo una puede estar activa a la vez se configuran en /etc/sysconfig/selinux
+
+		The most common policies are:
+
+    		-targeted 
+		    The default policy in which SELinux is more restricted to targeted processes. User processes and init processes are not targeted. SELinux enforces memory restrictions for all processes, which reduces the vulnerability to buffer overflow attacks.
+    
+    		-minimum
+		    A modification of the targeted policy where only selected processes are protected.
+		    
+		    -MLS
+    	    The Multi-Level Security policy is much more restrictive; all processes are placed in fine-grained security domains with particular policies.
+
+    -contextos
+    	en que contextox voy a aplicar mis reglas los contextos son 
+
+	    User
+	    Role
+	    Type
+	    Level.
+
+	    -solo muestran ejemplos del contexto type
+	    los label de contexto se ven por estos inicios y terminaciones en el nombre _t como en kernel_t
+
+	    	-ver el contexto 
+	    	ls -Z
+	    	ps auZ
+
+	    	-cambiar contexto
+	    	$ chcon -t etc_t somefile
+			$ chcon --reference somefile so
+
 *restorecon
 resetea el contexto del archivo
 

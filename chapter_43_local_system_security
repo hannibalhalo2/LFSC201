@@ -1,0 +1,28 @@
+*opciones seguras de montado en /etc/fstab 
+	
+    -nodev
+    	Do not interpret character or block special devices on the filesystem.
+    -nosuid
+    	The set-user-identifier or set-group-identifier bits are not to take effect. (We will shortly discuss setuid and setgid).​
+    -noexec
+    	Restrict direct execution of any binaries on the mounted filesystem.
+    -ro
+    	Mount the filesystem in read-only mode as in:
+
+    	$ mount -o ro,noexec,nodev /dev/sda2 /mymountpt
+
+     	or in /etc/fstab:
+
+    	/dev/sda2 /mymountpt  ext4 ro,noexec,nodev 0 0
+
+*setuid
+	si el binario tiene la bandera de setuid corre con los privilegios de el duenio del binario mas no del que lo ejecuta
+
+	-configurando setuid
+		$ chmod u+s somefile
+
+	-configurando setgid
+		$ chmod g+s somefile
+
+	-configurando setgiid para direcotrios
+		$ chmod g+s somedir

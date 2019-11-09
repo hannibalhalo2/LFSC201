@@ -5,6 +5,13 @@
 *cada cierto tiempo el proceso toma un snapshot de su estado con sus recursos 
 
 *ulimit muestra el limite de recursos de un proceso y establece limites hard (solo por root) y soft los configura el usuario
+  ulimit --help
+  ulimit -n       muestra el numero maximo de open file descriptor
+  ulimit -S -n    muestra el numero maximo de opne file descriptor para soft limits
+  ulimit -H -n    lo mismo de arriba para hard limits los de root
+  ulimit -n hard  setea el hard limit
+  ulimit -n numerodeseado    setea un numero especifico para el limite 
+  (SI SE TRATA DE VOLVER AL MISMOLIMITE QUE TENIAMOS ANTERIORMENTE NO SE PUEDE)
 
 *los binarios con setuid o stickybit corren con el nombre del usuario propietario  y no del que lo ejecuta
 
@@ -23,3 +30,10 @@
   
  *tipos librerias statica (inseertada en tiempo compilacion) shared (a.k.a dll compartidas del sistema)
   las shared libraries tienen como caracterisitca terminar en .so libgdm.so
+
+*ipcs s a rather old method of
+InterProcessCommunication that dates back to the early days ofUNIx. It involves
+three mechanisms:
+1.Shared Memory Segments
+2.Semaphores
+3.Message Queues

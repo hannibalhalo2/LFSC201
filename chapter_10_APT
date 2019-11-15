@@ -110,4 +110,7 @@
         apt-cache search <filename> | grep -w <filename>
         
     -will list files located in the directory /usr/bin, useful if you're looking for a particular executable.
-        dpkg -L package | grep /usr/bin 
+        dpkg -L package | grep /usr/bin
+        
+    -busqueda de metapaquetes
+        apt-cache search metapackages

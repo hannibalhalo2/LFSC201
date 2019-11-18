@@ -1,1 +1,16 @@
+*mount 
 
+  para un montado se toma como ejemplo tmpfs
+  mount -t tipofilesystem -o optiones separadas con coma /mnt  --> punto de montaje
+  
+  $ sudo mount -t tmpfs -o size=1G none /mnt/tmpfs
+  
+  desmontar
+  
+  $ sudo umount /mnt/tmpfs
+  
+  ver el punto de montaje 
+  $ df -h /dev/shm
+  
+  -ver los tmpfs montados 
+  $ df -h | grep tmpfs

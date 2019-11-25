@@ -25,3 +25,23 @@
 
  	-borrar contenedor 
  	$ docker rm $(docker ps -a -q)
+	
+	-instalacion
+	apt-get install docker.io
+	
+	-buscar imagenes 
+	docker search nombreimagen
+	
+	-descargar contenedores
+	docker pull nombreimagen
+	
+	-listar imagenes
+	docker images 
+	
+	-listar imagenes con mas  detalles 
+	docker images --all
+	
+	-servicio 
+	service docker start
+
+        
